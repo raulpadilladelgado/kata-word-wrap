@@ -48,16 +48,16 @@ public class WordWrapShould {
                 if (textoSePuedeAjustar) {
                     ajuste += ajustarTexto(texto, anchoColumna, currentPosition);
                 } else {
-                    ajuste += juntarResto(texto, currentPosition);
+                    ajuste += agregarResto(texto, currentPosition);
                 }
             }
             return ajuste;
-        } else {
-            return texto;
         }
+        
+        return texto;
     }
 
-    private String juntarResto(String texto, int currentPosition) {
+    private String agregarResto(String texto, int currentPosition) {
         String ajuste;
         ajuste = texto.substring(currentPosition);
         return ajuste;
