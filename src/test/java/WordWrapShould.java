@@ -26,13 +26,40 @@ public class WordWrapShould {
     public void text_must_be_wrap() {
         assertThat(wordWrap("hola", 2)).isEqualTo("ho\nla");
         assertThat(wordWrap("hola", 3)).isEqualTo("hol\na");
-        assertThat(wordWrap("hola mundo", 6)).isEqualTo("hola\nmundo");
-        assertThat(wordWrap("hola mundodffdfdfdfdf", 6)).isEqualTo("hola\nmundodf\nfdfdfd\nfdf");
+        assertThat(wordWrap("holaqu", 2)).isEqualTo("ho\nla\nqu");
         assertThat(wordWrap("holaquetalestas", 2)).isEqualTo("ho\nla\nqu\net\nal\nes\nta\ns");
-        assertThat(wordWrap("holaquetalestas", 3)).isEqualTo("hol\naqu\neta\nles\ntas");
+
+        //assertThat(wordWrapRecursividad("hola mundo", 6)).isEqualTo("hola\nmundo");
+        // assertThat(wordWrapRecursividad("hola mundodffdfdfdfdf", 6)).isEqualTo("hola\nmundodf\nfdfdfd\nfdf");
+        // assertThat(wordWrapRecursividad("hello world", 7)).isEqualTo("hello\nworld");
+        // assertThat(wordWrapRecursividad("a lot of words", 10)).isEqualTo("a lot of\nwords");
+        // assertThat(wordWrapRecursividad("a lot of words for a single line", 10)).isEqualTo("a lot of\nwords for\na single\nline");
     }
 
+    //---------------------------------------------------------------------
+    //CON RECURSIVIDAD
     private String wordWrap(String text, int columnWidth) {
+        if (columnWidth < 1) {
+            throw new IllegalArgumentException("Column width must be one or more");
+        }
+        if (text == null||text.isEmpty()) {
+            return "";
+        }
+
+        if (text.length()<=columnWidth){return text;}
+        String result = text.substring(0,columnWidth)+"\n";
+        String remainder = text.substring(columnWidth);
+        //PRE-RECURSIVIDAD
+        // if (remainder.length()>columnWidth){
+        //     result += remainder.substring(0,columnWidth)+"\n";
+        //     result += remainder.substring(columnWidth);
+        //     return result;
+        // }
+        return result+wordWrap(remainder, columnWidth);
+    }
+//--------------------------------------------------------------------------
+    //SIN RECURSIVIDAD
+    /*private String wordWrapRecursividad(String text, int columnWidth) {
         if (columnWidth < 1) {
             throw new IllegalArgumentException("Column width must be one or more");
         }
@@ -58,17 +85,17 @@ public class WordWrapShould {
         return text;
     }
 
-    
-
     private String wrapText(String text, int columnWidth, int currentPosition) {
-        String result;
+        String result="";
         result = text.substring(currentPosition, currentPosition + columnWidth);
-        int whiteSpaceIndex = result.indexOf(" ");
+        int whiteSpaceIndex = result.lastIndexOf(" ");
         if (whiteSpaceIndex != -1) {
-            result = result.replace(" ", "\n");
+            //result = result.replace(" ", "\n");
+            result=result.substring(0, whiteSpaceIndex-1)+"\n"+text.substring(whiteSpaceIndex);
         } else {
             result += "\n";
         }
         return result;
-    }
+    }*/
+    //-----------------------------------------------------------------------------------------------
 }
